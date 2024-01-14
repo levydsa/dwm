@@ -46,7 +46,7 @@ static const Layout layouts[] = {
 	X(XK_9, 8)
 
 /* key definitions */
-#define MODKEY Mod1Mask
+#define MODKEY Mod4Mask
 #define TAGKEYS(KEY,TAG) \
 	{ MODKEY,                       KEY,      view,           {.ui = 1 << TAG} }, \
 	{ MODKEY|ControlMask,           KEY,      toggleview,     {.ui = 1 << TAG} }, \
@@ -61,14 +61,23 @@ static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() 
 static const char *dmenucmd[] = { "dmenu_run", NULL };
 static const char *termcmd[]  = { "st", NULL };
 static const char *volume[] = { "volume", NULL };
+static const char *volume_up[] = { "volume", "+10", NULL };
+static const char *volume_down[] = { "volume", "-10", NULL };
+static const char *volume_toggle[] = { "volume", "-t", NULL };
 static const char *backlight[] = { "backlight", NULL };
 
 static const Key keys[] = {
 	/* modifier         key        function        argument */
 	{ MODKEY,           XK_p,      spawn,          { .v = dmenucmd } },
 	{ MODKEY|ShiftMask, XK_Return, spawn,          { .v = termcmd } },
+
 	{ MODKEY,           XK_F1,     spawn,          { .v = volume } },
 	{ MODKEY,           XK_F2,     spawn,          { .v = backlight } },
+
+	{ 0, XF86XK_AudioRaiseVolume, spawn, { .v = volume_up } },
+	{ 0, XF86XK_AudioLowerVolume, spawn, { .v = volume_down } },
+	{ 0, XF86XK_AudioMute,        spawn, { .v = volume_toggle } },
+
 	{ MODKEY,           XK_b,      togglebar,      { 0 } },
 	{ MODKEY,           XK_j,      focusstack,     { .i = +1 } },
 	{ MODKEY,           XK_k,      focusstack,     { .i = -1 } },
